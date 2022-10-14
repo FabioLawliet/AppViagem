@@ -1,0 +1,81 @@
+object fApresentacao: TfApresentacao
+  Left = 0
+  Top = 0
+  Caption = 'Header Footer Form'
+  ClientHeight = 567
+  ClientWidth = 384
+  FormFactor.Width = 1440
+  FormFactor.Height = 900
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnShow = FormShow
+  DesignerMasterStyle = 3
+  object ApresenTabControl: TTabControl
+    Align = Client
+    Size.Width = 384.000000000000000000
+    Size.Height = 567.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'tabcontrolstyle'
+    TabHeight = 49.000000000000000000
+    TabIndex = 1
+    TabOrder = 0
+    TabPosition = None
+    Sizes = (
+      384s
+      567s
+      384s
+      567s)
+    object ApresenTabItem01: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 8.000000000000000000
+      Size.Height = 8.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'ApresenTabItem01'
+    end
+    object ApresenTabItem02: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 8.000000000000000000
+      Size.Height = 8.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'ApresenTabItem02'
+      object btnAtualizar: TButton
+        Position.X = 16.000000000000000000
+        Position.Y = 504.000000000000000000
+        Size.Width = 353.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Clique para atualizar'
+        OnClick = btnAtualizarClick
+      end
+    end
+  end
+  object RESTClient1: TRESTClient
+    BaseURL = 'https://appviagem-a132f-default-rtdb.firebaseio.com'
+    Params = <>
+    Left = 32
+    Top = 16
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Resource = 'AppViagem.json'
+    Response = RESTResponse1
+    Left = 32
+    Top = 72
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 32
+    Top = 128
+  end
+end

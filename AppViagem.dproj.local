@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <ActiveMobileDevice>   <NoProfile iOSSimulator="iPhone5"/>
+  </ActiveMobileDevice>
+  <Transactions>
+    <Transaction>2022/10/14 19:19:16.286,C:\Projetos\AppViagem\Apresentacao.pas=C:\Projetos\AppViagem\HeaderFooterTemplate.pas</Transaction>
+    <Transaction>2022/10/14 19:19:16.287,C:\Projetos\AppViagem\Apresentacao.fmx=C:\Projetos\AppViagem\HeaderFooterTemplate.fmx</Transaction>
+    <Transaction>2022/10/14 19:36:04.548,=C:\Projetos\AppViagem\Unit1.pas</Transaction>
+    <Transaction>2022/10/14 19:36:20.111,=C:\Projetos\AppViagem\UOpenURL.pas</Transaction>
+    <Transaction>2022/10/14 20:01:41.074,C:\Projetos\AppViagem\AppViagem.dproj=C:\Projetos\AppViagem\HeaderFooterApplication.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
