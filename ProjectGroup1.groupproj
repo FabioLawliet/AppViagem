@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{1A9934B6-0845-4463-A006-7428F60128D8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AppViagem.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AppViagem">
+        <MSBuild Projects="AppViagem.dproj"/>
+    </Target>
+    <Target Name="AppViagem:Clean">
+        <MSBuild Projects="AppViagem.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AppViagem:Make">
+        <MSBuild Projects="AppViagem.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AppViagem"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AppViagem:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AppViagem:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
