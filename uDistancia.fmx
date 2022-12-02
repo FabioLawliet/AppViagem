@@ -7,7 +7,8 @@ object fDistancia: TfDistancia
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  DesignerMasterStyle = 0
+  OnShow = FormShow
+  DesignerMasterStyle = 3
   object imgFundo: TImage
     MultiResBitmap = <
       item
@@ -38325,11 +38326,11 @@ object fDistancia: TfDistancia
     WrapMode = Stretch
     object layOrigem: TLayout
       Align = Top
-      Position.Y = 50.000000000000000000
+      Position.Y = 123.000000000000000000
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 4
+      TabOrder = 5
       object Label4: TLabel
         Align = Top
         StyledSettings = [Family, Style]
@@ -38340,7 +38341,7 @@ object fDistancia: TfDistancia
         Size.PlatformDefault = False
         TextSettings.Font.Size = 16.000000000000000000
         TextSettings.FontColor = claWhite
-        Text = 'Origem'
+        Text = 'Cidade de Origem da Viagem'
         TabOrder = 0
       end
       object Rectangle2: TRectangle
@@ -38359,19 +38360,32 @@ object fDistancia: TfDistancia
           Align = Client
           TabOrder = 0
           Size.Width = 360.000000000000000000
-          Size.Height = 40.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
           Caret.Color = claBlack
         end
       end
+      object lbGasto: TLabel
+        StyledSettings = [Family, Style]
+        Position.X = 16.000000000000000000
+        Position.Y = 309.000000000000000000
+        Size.Width = 360.000000000000000000
+        Size.Height = 52.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 20.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.VertAlign = Leading
+        Text = 'Estim. de Gasto:'
+        TabOrder = 2
+      end
     end
     object LayDestino: TLayout
       Align = Top
-      Position.Y = 123.000000000000000000
+      Position.Y = 196.000000000000000000
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 3
+      TabOrder = 4
       object Label1: TLabel
         Align = Top
         StyledSettings = [Family, Style]
@@ -38382,7 +38396,7 @@ object fDistancia: TfDistancia
         Size.PlatformDefault = False
         TextSettings.Font.Size = 16.000000000000000000
         TextSettings.FontColor = claWhite
-        Text = 'Destino'
+        Text = 'Cidade de Destino da Viagem'
         TabOrder = 0
       end
       object Rectangle1: TRectangle
@@ -38401,7 +38415,7 @@ object fDistancia: TfDistancia
           Align = Client
           TabOrder = 0
           Size.Width = 360.000000000000000000
-          Size.Height = 40.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
           Caret.Color = claBlack
         end
@@ -38414,7 +38428,7 @@ object fDistancia: TfDistancia
       Margins.Top = 20.000000000000000000
       Margins.Right = 20.000000000000000000
       Position.X = 20.000000000000000000
-      Position.Y = 216.000000000000000000
+      Position.Y = 289.000000000000000000
       Size.Width = 360.000000000000000000
       Size.Height = 58.000000000000000000
       Size.PlatformDefault = False
@@ -38443,46 +38457,82 @@ object fDistancia: TfDistancia
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       Stroke.Color = claNull
-      object btnMenu: TSpeedButton
-        Align = Left
-        StyledSettings = [Family, Size, Style]
-        IconTintColor = claBlack
-        Size.Width = 48.000000000000000000
-        Size.Height = 50.000000000000000000
-        Size.PlatformDefault = False
-        StyleLookup = 'drawertoolbutton'
-      end
       object Label8: TLabel
         Align = Client
         StyledSettings = [Family]
         Margins.Right = 35.000000000000000000
-        Size.Width = 317.000000000000000000
+        Size.Width = 365.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Size = 18.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.HorzAlign = Center
-        Text = 'Dist'#226'ncia'
+        Text = 'M'#233'tricas de Viagem'
         TabOrder = 0
+      end
+    end
+    object Layout1: TLayout
+      Align = Top
+      Position.Y = 50.000000000000000000
+      Size.Width = 400.000000000000000000
+      Size.Height = 73.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object Label2: TLabel
+        Align = Top
+        StyledSettings = [Family, Style]
+        Margins.Left = 20.000000000000000000
+        Position.X = 20.000000000000000000
+        Size.Width = 380.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'C'#243'digo Ve'#237'culo Cadastrado'
+        TabOrder = 0
+      end
+      object Rectangle3: TRectangle
+        Align = Top
+        Fill.Color = claWhite
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Position.X = 20.000000000000000000
+        Position.Y = 23.000000000000000000
+        Sides = []
+        Size.Width = 360.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        object nbCodVeiculo: TNumberBox
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Client
+          TabOrder = 0
+          Cursor = crIBeam
+          Max = 1000.000000000000000000
+          Size.Width = 360.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          OnChange = nbCodVeiculoChange
+          OnExit = nbCodVeiculoExit
+        end
       end
     end
   end
   object lbDistancia: TLabel
     StyledSettings = [Family, Style]
     Position.X = 16.000000000000000000
-    Position.Y = 320.000000000000000000
+    Position.Y = 360.000000000000000000
     Size.Width = 360.000000000000000000
     Size.Height = 20.000000000000000000
     Size.PlatformDefault = False
     TextSettings.Font.Size = 20.000000000000000000
     TextSettings.FontColor = claWhite
-    Text = 'Distancia:'
+    Text = 'Dist'#226'ncia:'
     TabOrder = 3
   end
   object lbTempo: TLabel
     StyledSettings = [Family, Style]
     Position.X = 16.000000000000000000
-    Position.Y = 360.000000000000000000
+    Position.Y = 397.000000000000000000
     Size.Width = 360.000000000000000000
     Size.Height = 20.000000000000000000
     Size.PlatformDefault = False
@@ -38494,7 +38544,7 @@ object fDistancia: TfDistancia
   object RESTClient1: TRESTClient
     Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
     AcceptCharset = 'utf-8, *;q=0.8'
-    BaseURL = 'http://maps.googleapis.com/maps/api/distancematrix'
+    BaseURL = 'https://maps.googleapis.com/maps/api/distancematrix'
     Params = <>
     Left = 24
     Top = 504
@@ -38502,9 +38552,6 @@ object fDistancia: TfDistancia
   object RESTRequest1: TRESTRequest
     Client = RESTClient1
     Params = <>
-    Resource = 
-      'json?origins=Toledo+PR&destinations=Curitiba+PR&mode=driving&lan' +
-      'guage=pt-BR&key='
     Response = RESTResponse1
     Left = 24
     Top = 560

@@ -30,10 +30,11 @@ type
     QueryVeiculo: TFDQuery;
     QueryVeiculoid: TFDAutoIncField;
     QueryVeiculodescricao: TStringField;
-    QueryVeiculoPlaca: TStringField;
-    QueryVeiculotipocombustivel: TStringField;
+    QueryVeiculoplaca: TStringField;
+    QueryVeiculoTipoCombustivel: TStringField;
     QueryVeiculocapacidadetanque: TCurrencyField;
     QueryVeiculomediaconsumo: TCurrencyField;
+    QueryVeiculovalorcombustivel: TCurrencyField;
     procedure FDConnectionAfterConnect(Sender: TObject);
     procedure FDConnectionBeforeConnect(Sender: TObject);
   private
@@ -75,10 +76,22 @@ const
   'Placa varchar(6),                              ' +
   'tipocombustivel varchar(1),                    ' +
   'capacidadetanque currency(4,2),                ' +
-  'mediaconsumo currency(4,2))                    ';
+  'mediaconsumo currency(4,2),                    ' +
+  'valorcombustivel currency(4,2))                ';
+
+  cSQLCreateVersao =
+  'create table IF NOT EXISTS versao(             ' +
+  'versao currency(4,2));                          ';
 begin
+  //FDConnection.ExecSQL('drop table veiculo');
   FDConnection.ExecSQL(cSQLCreatePessoa);
   FDConnection.ExecSQL(cSQLCreateVeiculo);
+  FDConnection.ExecSQL(cSQLCreateVersao);
+
+  dm.QueryPessoa.Close;
+  dm.QueryVeiculo.Close;
+  dm.QueryPessoa.Open;
+  dm.QueryVeiculo.Open;
 end;
 
 procedure Tdm.FDConnectionBeforeConnect(Sender: TObject);

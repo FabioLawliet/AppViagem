@@ -104,6 +104,10 @@ type
     btnExcluir: TSpeedButton;
     RecAdicionar: TRectangle;
     btnAdicionar: TSpeedButton;
+    RecEditar: TRectangle;
+    btnEditar: TSpeedButton;
+    ApresenTabItem00_Logo: TTabItem;
+    Image7: TImage;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RectAtualizarClick(Sender: TObject);
@@ -122,8 +126,11 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
+    procedure btnEditarClick(Sender: TObject);
   private
     procedure OnFinishUpdate(Sender: TObject);
+    procedure PreencheCadastroVeiculo(Aid: integer);
+    function GetVersaoApp: currency;
     { Private declarations }
   public
     FVersaoServer: String;
@@ -199,7 +206,7 @@ begin
   end;
 
   ShowMessage('Cadastro realizado com sucesso!');
-  ApresenTabControl.TabIndex := ApresenTabItem02_login.Index;
+  ApresenTabControl.ActiveTab := ApresenTabItem02_login;
 end;
 
 procedure TfApresentacao.RecSeilaClick(Sender: TObject);
@@ -220,6 +227,7 @@ begin
 {$IFDEF ANDROID}
   url := 'https://drive.google.com/file/d/1RXgWgHoOZkJmWF8O1ux2Sp_rKzHMqam6/view?usp=share_link';
   OpenURL(url, False);
+  dm.FDConnection.ExecSQL('update versao set versao = ' + FVersaoServer);
   Application.Terminate;
 {$ENDIF}
 end;
@@ -236,12 +244,6 @@ begin
   if (not dm.QueryPessoa.IsEmpty) then
   begin
     ApresenTabControl.ActiveTab := ApresenTabItem04_TelaPrincipal;
-    //dm.idPessoaLogada := dm.QueryPessoaid.AsInteger;
-
-    {if not assigned(FPrincipal) then
-      Application.CreateForm(TFPrincipal, FPrincipal);
-
-    FPrincipal.Show;}
   end else
   begin
     ShowMessage('Email ou senha inválido!');
@@ -294,6 +296,44 @@ begin
   if not assigned(fCadVeiculo) then
     Application.CreateForm(TfCadVeiculo, fCadVeiculo);
 
+  fCadVeiculo.Veiculo.id := 0;
+  fCadVeiculo.Show;
+  fCadVeiculo.FormStyle := TFormStyle.Normal;
+end;
+
+procedure TfApresentacao.PreencheCadastroVeiculo(Aid: integer);
+const
+  cSQL = 'select * from veiculo where id = :id';
+var
+  vQuery: TFDQuery;
+begin
+  vQuery := TFDQuery.Create(nil);
+  vQuery.Connection := dm.FDConnection;
+  try
+    vQuery.SQL.Add(cSQL);
+    vQuery.ParamByName('id').AsInteger := Aid;
+    vQuery.Open();
+    if not vQuery.IsEmpty then
+    begin
+      fCadVeiculo.Veiculo.id               := vQuery.FieldByName('id').AsInteger;
+      fCadVeiculo.Veiculo.descricao        := vQuery.FieldByName('descricao').AsString;
+      fCadVeiculo.Veiculo.placa            := vQuery.FieldByName('placa').AsString;
+      fCadVeiculo.Veiculo.capacTanque      := vQuery.FieldByName('capacidadetanque').AsCurrency;
+      fCadVeiculo.Veiculo.mediacombustivel := vQuery.FieldByName('mediaconsumo').AsCurrency;
+      fCadVeiculo.Veiculo.tipocombustivel  := vQuery.FieldByName('tipocombustivel').AsString;
+      fCadVeiculo.Veiculo.valorCombustivel := vQuery.FieldByName('valorcombustivel').AsCurrency;
+    end;
+  finally
+    FreeAndNil(vQuery);
+  end;
+end;
+
+procedure TfApresentacao.btnEditarClick(Sender: TObject);
+begin
+  if not assigned(fCadVeiculo) then
+    Application.CreateForm(TfCadVeiculo, fCadVeiculo);
+
+  PreencheCadastroVeiculo(StrToInt(StringGrid1.Cells[0, StringGrid1.Row]));
   fCadVeiculo.Show;
   fCadVeiculo.FormStyle := TFormStyle.Normal;
 end;
@@ -325,11 +365,30 @@ begin
   dm.QueryVeiculo.First;
 end;
 
+function TfApresentacao.GetVersaoApp: currency;
+var
+  vQuery: TFDQuery;
+begin
+  Result := 0;
+  vQuery := TFDQuery.Create(nil);
+  vQuery.Connection := dm.FDConnection;
+  try
+    vQuery.SQL.Add('select versao from versao');
+    vQuery.Open;
+    if vQuery.IsEmpty then
+      vQuery.Connection.ExecSQL('insert into versao(versao) values (0)')
+    else
+      Result := vQuery.FieldByName('Versao').AsFloat;
+  finally
+    FreeAndNil(vQuery);
+  end;
+end;
+
 procedure TfApresentacao.FormCreate(Sender: TObject);
 begin
-  FVersaoApp    := '1.0';
-  FVersaoServer := '0.0';
+  FVersaoApp := FloatToStr(GetVersaoApp);
 end;
+
 procedure TfApresentacao.FormKeyUp(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 {$IFDEF ANDROID}
@@ -358,18 +417,15 @@ begin
 end;
 
 procedure TfApresentacao.FormShow(Sender: TObject);
-{$IFDEF ANDROID}
 var
   t: TThread;
-{$ENDIF}
 begin
-{$IFDEF ANDROID}
     t := TThread.CreateAnonymousThread(
     procedure
     var
       JsonObj: TJSONObject;
     begin
-      sleep(2000);
+      sleep(1000);
       try
         RESTRequest1.Execute;
       except
@@ -388,10 +444,6 @@ begin
     end);
     t.OnTerminate := OnFinishUpdate;
     t.Start;
-{$ENDIF}
-
-  ApresenTabControl.TabIndex := 0;
-  //ApresenTabControl.TabIndex := 3;
 end;
 
 procedure TfApresentacao.Image4Click(Sender: TObject);
@@ -411,9 +463,10 @@ begin
     ShowMessage(Exception(TThread(Sender).FatalException).Message);
     Exit;
   end;
-  if (FVersaoApp < FVersaoServer) then
-  begin
+
+  if (FVersaoApp <> FVersaoServer) then
+    ApresenTabControl.ActiveTab := ApresenTabItem01_Atualizar
+  else
     ApresenTabControl.ActiveTab := ApresenTabItem02_Login;
-  end;
 end;
 end.

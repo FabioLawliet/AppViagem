@@ -10,11 +10,13 @@ uses
 
 type
   TVeiculo = record
+    id: integer;
     descricao: string;
     placa: string;
     capacTanque: currency;
     mediacombustivel: currency;
     tipocombustivel: string;
+    valorCombustivel: currency;
 
   end;
 
@@ -51,10 +53,16 @@ type
     Label3: TLabel;
     nbMediaConsumo: TNumberBox;
     nbCapacidadeTanque: TNumberBox;
+    Layout1: TLayout;
+    Z: TLabel;
+    Rectangle3: TRectangle;
+    nbValorCombustivel: TNumberBox;
     procedure RecConfirmarUserClick(Sender: TObject);
     procedure nbMediaConsumoChange(Sender: TObject);
     procedure LimpaCampos;
     procedure FormShow(Sender: TObject);
+    procedure nbCapacidadeTanqueChange(Sender: TObject);
+    procedure nbValorCombustivelChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -71,7 +79,20 @@ implementation
 
 procedure TfCadVeiculo.FormShow(Sender: TObject);
 begin
-  LimpaCampos;
+  if (Veiculo.id > 0) then
+  begin
+    edtDescVeiculo.text      := veiculo.descricao;
+    edtPlaca.text            := veiculo.placa;
+    nbCapacidadeTanque.Value := veiculo.capacTanque;
+    nbMediaConsumo.Value     := veiculo.mediacombustivel;
+    rbGasolina.IsChecked     := (veiculo.tipocombustivel = 'G');
+    rbAlcool.IsChecked       := (veiculo.tipocombustivel = 'A');
+    rbDiesel.IsChecked       := (veiculo.tipocombustivel = 'D');
+    nbValorCombustivel.Value := veiculo.valorCombustivel;
+  end
+  else
+    LimpaCampos;
+
   edtDescVeiculo.SetFocus;
 end;
 
@@ -82,11 +103,22 @@ begin
   nbMediaConsumo.Value := 0;
   nbCapacidadeTanque.Value := 0;
   rbGasolina.IsChecked := true;
+  nbValorCombustivel.Value := 0;
+end;
+
+procedure TfCadVeiculo.nbCapacidadeTanqueChange(Sender: TObject);
+begin
+  nbCapacidadeTanque.Value := StrToFloat(nbCapacidadeTanque.Text);
 end;
 
 procedure TfCadVeiculo.nbMediaConsumoChange(Sender: TObject);
 begin
-  TNumberBox(Sender).Value := StrToFloat(TNumberBox(Sender).Text);
+  nbMediaConsumo.Value := StrToFloat(nbMediaConsumo.Text);
+end;
+
+procedure TfCadVeiculo.nbValorCombustivelChange(Sender: TObject);
+begin
+  nbValorCombustivel.Value := StrToFloat(nbValorCombustivel.Text);
 end;
 
 procedure TfCadVeiculo.RecConfirmarUserClick(Sender: TObject);
@@ -129,23 +161,58 @@ begin
   dm.QueryVeiculo.Close();
   dm.QueryVeiculo.Open();
 
-  dm.QueryVeiculo.Append;
-  dm.QueryVeiculo.FieldByName('descricao').AsString := edtDescVeiculo.Text;
-  dm.QueryVeiculo.FieldByName('placa').AsString := edtPlaca.Text;
-  dm.QueryVeiculo.FieldByName('capacidadetanque').AsCurrency := nbCapacidadeTanque.Value;
-  dm.QueryVeiculo.FieldByName('mediaconsumo').AsCurrency := nbMediaConsumo.Value;
+  if (veiculo.id > 0) then
+  begin
+    dm.QueryVeiculo.First;
+    while not dm.QueryVeiculo.Eof do
+    begin
+      if (dm.QueryVeiculoid.AsInteger = veiculo.id) then
+      begin
+        dm.QueryVeiculo.Edit;
+        dm.QueryVeiculo.FieldByName('descricao').AsString          := edtDescVeiculo.Text;
+        dm.QueryVeiculo.FieldByName('placa').AsString              := edtPlaca.Text;
+        dm.QueryVeiculo.FieldByName('capacidadetanque').AsCurrency := nbCapacidadeTanque.Value;
+        dm.QueryVeiculo.FieldByName('mediaconsumo').AsCurrency     := nbMediaConsumo.Value;
+        dm.QueryVeiculo.FieldByName('valorcombustivel').AsCurrency := StrToCurr(nbValorCombustivel.Text);
 
-  if rbGasolina.IsChecked then
-    dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'G'
-  else if rbAlcool.IsChecked then
-    dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'A'
-  else
-    dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'D';
+        if rbGasolina.IsChecked then
+          dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'G'
+        else if rbAlcool.IsChecked then
+          dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'A'
+        else
+          dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'D';
 
-  dm.QueryVeiculo.Post;
-  dm.FDConnection.CommitRetaining;
+        dm.QueryVeiculo.Post;
+        dm.FDConnection.CommitRetaining;
 
-  ShowMessage('Veículo cadastrado com sucesso!');
+        ShowMessage('Veículo editado com sucesso!');
+        break;
+      end;
+      dm.QueryVeiculo.Next;
+    end;
+  end else
+  begin
+    dm.QueryVeiculo.Append;
+    dm.QueryVeiculo.FieldByName('descricao').AsString          := edtDescVeiculo.Text;
+    dm.QueryVeiculo.FieldByName('placa').AsString              := edtPlaca.Text;
+    dm.QueryVeiculo.FieldByName('capacidadetanque').AsCurrency := nbCapacidadeTanque.Value;
+    dm.QueryVeiculo.FieldByName('mediaconsumo').AsCurrency     := nbMediaConsumo.Value;
+    dm.QueryVeiculo.FieldByName('valorcombustivel').AsCurrency := StrToCurr(nbValorCombustivel.Text);
+
+    if rbGasolina.IsChecked then
+      dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'G'
+    else if rbAlcool.IsChecked then
+      dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'A'
+    else
+      dm.QueryVeiculo.FieldByName('tipoCombustivel').AsString := 'D';
+
+    dm.QueryVeiculo.Post;
+    dm.FDConnection.CommitRetaining;
+
+    ShowMessage('Veículo cadastrado com sucesso!');
+  end;
+
+  LimpaCampos;
   Close;
 end;
 end.

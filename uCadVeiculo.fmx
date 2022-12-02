@@ -38330,7 +38330,7 @@ object fCadVeiculo: TfCadVeiculo
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 6
+      TabOrder = 7
       object Label9: TLabel
         Align = Top
         StyledSettings = []
@@ -38375,7 +38375,7 @@ object fCadVeiculo: TfCadVeiculo
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 5
+      TabOrder = 6
       object Label10: TLabel
         Align = Top
         StyledSettings = []
@@ -38420,7 +38420,7 @@ object fCadVeiculo: TfCadVeiculo
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 3
+      TabOrder = 4
       object Label12: TLabel
         Align = Top
         StyledSettings = []
@@ -38452,10 +38452,11 @@ object fCadVeiculo: TfCadVeiculo
           Align = Client
           TabOrder = 1
           Cursor = crIBeam
+          Max = 1000.000000000000000000
           Size.Width = 360.000000000000000000
           Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
-          OnChange = nbMediaConsumoChange
+          OnChange = nbCapacidadeTanqueChange
         end
       end
     end
@@ -38478,7 +38479,7 @@ object fCadVeiculo: TfCadVeiculo
         TextSettings.Font.Size = 18.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claWhite
-        Text = 'Tipo de Combustivel'
+        Text = 'Tipo de Combust'#237'vel'
         TabOrder = 0
       end
       object GroupBox1: TGroupBox
@@ -38566,7 +38567,7 @@ object fCadVeiculo: TfCadVeiculo
       Size.Width = 400.000000000000000000
       Size.Height = 73.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 3
       object Label15: TLabel
         Align = Top
         StyledSettings = []
@@ -38598,7 +38599,9 @@ object fCadVeiculo: TfCadVeiculo
           Align = Client
           TabOrder = 1
           Cursor = crIBeam
-          Max = 6.000000000000000000
+          Max = 10000.000000000000000000
+          ValueType = Float
+          KeyboardType = NumbersAndPunctuation
           Size.Width = 360.000000000000000000
           Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
@@ -38624,18 +38627,18 @@ object fCadVeiculo: TfCadVeiculo
         TextSettings.Font.Size = 18.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.HorzAlign = Center
-        Text = 'Ve'#237'culos'
+        Text = 'Cadastro de Ve'#237'culos'
         TabOrder = 0
       end
     end
     object LayConfirmar: TLayout
       Align = Top
       Margins.Bottom = 10.000000000000000000
-      Position.Y = 415.000000000000000000
+      Position.Y = 488.000000000000000000
       Size.Width = 400.000000000000000000
       Size.Height = 90.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 4
+      TabOrder = 5
       object RecConfirmarUser: TRectangle
         Align = Top
         Fill.Color = claGold
@@ -38664,6 +38667,55 @@ object fCadVeiculo: TfCadVeiculo
           TextSettings.HorzAlign = Center
           Text = 'Confirmar'
           TabOrder = 0
+        end
+      end
+    end
+    object Layout1: TLayout
+      Align = Top
+      Position.Y = 415.000000000000000000
+      Size.Width = 400.000000000000000000
+      Size.Height = 73.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Z: TLabel
+        Align = Top
+        StyledSettings = []
+        Margins.Left = 20.000000000000000000
+        Position.X = 20.000000000000000000
+        Size.Width = 380.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claWhite
+        Text = 'Valor Combust'#237'vel'
+        TabOrder = 0
+      end
+      object Rectangle3: TRectangle
+        Align = Top
+        Fill.Color = claWhite
+        Padding.Bottom = 5.000000000000000000
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Position.X = 20.000000000000000000
+        Position.Y = 23.000000000000000000
+        Sides = []
+        Size.Width = 360.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        object nbValorCombustivel: TNumberBox
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Client
+          StyleLookup = 'numberboxstyle'
+          TabOrder = 1
+          Cursor = crIBeam
+          Max = 10000.000000000000000000
+          ValueType = Float
+          KeyboardType = DecimalNumberPad
+          Size.Width = 360.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          OnChange = nbValorCombustivelChange
         end
       end
     end

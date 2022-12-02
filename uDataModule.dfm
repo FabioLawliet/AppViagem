@@ -100,10 +100,11 @@ object dm: Tdm
     Left = 176
     Top = 16
     object QueryVeiculoid: TFDAutoIncField
-      DisplayLabel = 'Id'
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
     end
     object QueryVeiculodescricao: TStringField
       DisplayLabel = 'Descri'#231#227'o'
@@ -111,29 +112,32 @@ object dm: Tdm
       Origin = 'descricao'
       Size = 50
     end
-    object QueryVeiculoPlaca: TStringField
-      FieldName = 'Placa'
-      Origin = 'Placa'
+    object QueryVeiculoplaca: TStringField
+      DisplayLabel = 'Placa'
+      FieldName = 'placa'
+      Origin = 'placa'
       Size = 6
     end
-    object QueryVeiculotipocombustivel: TStringField
-      DisplayLabel = 'Combust'#237'vel'
-      FieldName = 'tipocombustivel'
-      Origin = 'tipocombustivel'
-      Visible = False
+    object QueryVeiculoTipoCombustivel: TStringField
+      DisplayLabel = 'Tipo de Combustivel'
+      FieldName = 'TipoCombustivel'
+      Origin = 'TipoCombustivel'
       Size = 1
     end
     object QueryVeiculocapacidadetanque: TCurrencyField
-      DisplayLabel = 'Capacidade'
+      DisplayLabel = 'Capacidade do Tanque'
       FieldName = 'capacidadetanque'
       Origin = 'capacidadetanque'
-      Visible = False
     end
     object QueryVeiculomediaconsumo: TCurrencyField
-      DisplayLabel = 'M'#233'd. Consumo'
+      DisplayLabel = 'M'#233'dia de Consumo'
       FieldName = 'mediaconsumo'
       Origin = 'mediaconsumo'
-      Visible = False
+    end
+    object QueryVeiculovalorcombustivel: TCurrencyField
+      DisplayLabel = 'Valor do Combust'#237'vel'
+      FieldName = 'valorcombustivel'
+      Origin = 'valorcombustivel'
     end
   end
 end

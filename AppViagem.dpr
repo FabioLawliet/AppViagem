@@ -12,7 +12,7 @@ uses
 {$R *.res}
 begin
   Application.Initialize;
-  Application.CreateForm(TfApresentacao, fApresentacao);
   Application.CreateForm(TDm, Dm);
+  Application.CreateForm(TfApresentacao, fApresentacao);
   Application.Run;
 end.

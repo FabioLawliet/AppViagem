@@ -74,9 +74,11 @@ begin
   APermissaoGPS := JStringToString(TJManifest_permission.JavaClass.ACCESS_FINE_LOCATION);
 
   PermissionsService.RequestPermissions([APermissaoGPS],
-      procedure(const APermissions: TArray<string>; const AGrantResults: TArray<TPermissionStatus>)
+      procedure(const APermissions: TArray<string>;
+        const AGrantResults: TArray<TPermissionStatus>)
       begin
-        if (Length(AGrantResults) = 1) and (AGrantResults[0] = TPermissionStatus.Granted) then
+        if (Length(AGrantResults) = 1) and
+          (AGrantResults[0] = TPermissionStatus.Granted) then
           LocationSensor1.Active := True
         else
           LocationSensor1.Active := False;
